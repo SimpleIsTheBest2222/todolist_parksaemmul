@@ -35,4 +35,9 @@ public class TodoServiceImpl implements TodoService {
         return todoDAO.searchByKeyword(keyword);
     }
 
+    @Override
+    public List<TodoVO> searchByStatus(String selectedStatus) throws Exception {
+        return todoDAO.searchByStatus(selectedStatus);
+    }
+
 }
