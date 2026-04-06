@@ -173,11 +173,58 @@ public class Main {
 
                 System.out.println("[시스템] ID " + id + "번 항목의 정보가 성공적으로 삭제되었습니다.");
                 System.out.println("---------------------------------------------------------");
+            } else if (menu == 5) {
+                /*
+                 * 검색 및 필터링 기능
+                 * */
+                System.out.println("[ 검색 및 필터링 ]");
+                System.out.println("---------------------------------------------------------");
+                System.out.println("1. 키워드 검색 (할 일 내용)");
+                System.out.println("2. 상태별 필터 (시작 전 / 진행 중 / 완료)");
+                System.out.println("3. 우선순위별 필터 (숫자)");
+                System.out.println("4. 뒤로 가기");
+                System.out.println("---------------------------------------------------------");
+                System.out.print("선택 > ");
+
+                int selectedNum = sc.nextInt();
+                sc.nextLine();
+
+                if (selectedNum == 1) {
+                    System.out.println("[ 키워드 검색 ]");
+                    System.out.print("> 검색할 단어를 입력하세요: ");
+                    String keyword = sc.nextLine();
+
+                    // searchByKeyword 메소드 생성해서 해당 키워드 있는 값 가져오기
+                    List<TodoVO> list = service.searchByKeyword(keyword);
+
+                    System.out.println();
+                    System.out.println("[ '" + keyword + "' 검색 결과 ]");
+                    System.out.println("=============================================================================================");
+                    System.out.println(" ID |   상태   | 우선순위 |      생성 일시      |  할 일 내용");
+                    System.out.println("---------------------------------------------------------------------------------------------");
+
+                    for (TodoVO vo : list) {
+                        System.out.println(
+                                vo.getStatus() + " | " +
+                                        vo.getPriority() + " | " +
+                                        vo.getCreatedTime() + " | " +
+                                        vo.getTask()
+                        );
+                    }
+
+                    System.out.println("---------------------------------------------------------------------------------------------");
+                    System.out.println("[ 총 " + list.size() + "개의 항목이 있습니다. ]");
+                    System.out.println("=============================================================================================");
+                } else if (selectedNum == 2) {
+                }
             }
+
+
         }
-        // 입력 닫기
     }
+// 입력 닫기
 }
+
 
 
 

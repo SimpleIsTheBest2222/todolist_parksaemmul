@@ -12,8 +12,7 @@ public class TodoDAO {
         // insert 메소드시 해당 쿼리문 탐
         // (?) 는 값을 나중에 받겠다는 뜻
         // id 가 null 이면 0으로 바꾼다음, id 컬럼 데이터중 최대값에서 +1 해서 id 으로 넣음. id 를 순차적으로 넣기 위한 sql
-        String sql = "INSERT INTO TODOLIST (ID, STATUS, PRIORITY, CREATED_TIME, TASK) " +
-                "VALUES ((SELECT IFNULL(MAX(ID), 0) + 1 FROM TODOLIST), ?, ?, ?, ?)";
+        String sql = "INSERT INTO TODOLIST (ID, STATUS, PRIORITY, CREATED_TIME, TASK) " + "VALUES ((SELECT IFNULL(MAX(ID), 0) + 1 FROM TODOLIST), ?, ?, ?, ?)";
         // insert를 날릴 준비를 하는 DB연결객체를 만듦
         PreparedStatement ps = conn.prepareStatement(sql);
         // 1은 sql 변수에 담긴 "?" 의 순서. 즉 "?"가 첫번째로 오는 자리에 task 파라미터를 넣겠다는 뜻
@@ -134,5 +133,41 @@ public class TodoDAO {
 
         ps.close();
         conn.close();
+    }
+
+    public List<TodoVO> searchByKeyword(String keyword) throws Exception {
+        // keyword 가 들어간 행 여러개일 경우 대비하여 리스트로 받음
+        List<TodoVO> list = new ArrayList<>();
+
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "SELECT ID, TASK, STATUS, PRIORITY, CREATED_TIME FROM TODOLIST WHERE TASK LIKE ?";
+
+        // db conn 한다음 sql 실행
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, "%" + keyword + "%");
+
+        // 쿼리 실행하는 명령어
+        ResultSet rs = ps.executeQuery();
+
+        // while 문으로 하나하나 조회하면서 해당 키워드 들어간 행 꺼냄.
+        while (rs.next()) {
+            TodoVO vo = new TodoVO();
+            vo.setId(rs.getInt("ID"));
+            vo.setTask(rs.getString("TASK"));
+            vo.setStatus(rs.getString("STATUS"));
+            vo.setPriority(rs.getInt("PRIORITY"));
+            vo.setCreatedTime(rs.getTimestamp("CREATED_TIME"));
+
+            list.add(vo);
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+
+        // 해당 키워드가 담긴 행들 list 으로 담아서 반환함.
+        return list;
+
     }
 }

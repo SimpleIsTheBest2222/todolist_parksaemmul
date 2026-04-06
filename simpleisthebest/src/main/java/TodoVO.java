@@ -11,6 +11,8 @@ public class TodoVO {
     private Timestamp createdTime;
     // 내용
     private String task;
+    // 키워드
+    private String keyword;
 
     public int getId() {
         return id;
@@ -50,5 +52,13 @@ public class TodoVO {
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 }

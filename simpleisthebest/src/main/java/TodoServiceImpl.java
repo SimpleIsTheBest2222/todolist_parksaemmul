@@ -30,4 +30,9 @@ public class TodoServiceImpl implements TodoService {
         todoDAO.deleteTodolist(id);
     }
 
+    @Override
+    public List<TodoVO> searchByKeyword(String keyword)  throws Exception {
+        return todoDAO.searchByKeyword(keyword);
+    }
+
 }
