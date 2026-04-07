@@ -41,6 +41,14 @@ public class Main {
                             vo.getId() + " ㅣ " + vo.getStatus() + " ㅣ " + vo.getPriority() + " ㅣ " + vo.getCreatedTime() + " ㅣ " + vo.getTask());
                 }
 
+                /*
+                * 상태 표시 및 피드백 (Feedback UI)
+                * 비어있는 목록 처리
+                * */
+                if (list.isEmpty()) {
+                    System.out.println("현재 등록된 할 일이 없습니다.");
+                }
+
                 // list 변수에 담긴 데이터 총 갯수를 읽음
                 System.out.println("---------------------------------------------------------------------------------------------");
                 System.out.println("[ 총 " + list.size() + "개의 항목이 있습니다. ]");
@@ -258,6 +266,17 @@ public class Main {
                     int priority = sc.nextInt();
                     // 버퍼 비움
                     sc.nextLine();
+
+                    /*
+                    * 상태 표시 및 피드백 (Feedback UI) 경
+                    * 경고 문구 추가
+                    * */
+                    if (priority < 1 || priority > 5) {
+                        System.out.println("[경고] 잘못된 입력입니다. 1~5 사이의 숫자를 입력해주세요.");
+                        // 바로 종료
+                        return;
+                    }
+
                     // 서비스단 searchByPriority 메서드 호출
                     List<TodoVO> list = service.searchByPriority(priority);
 
