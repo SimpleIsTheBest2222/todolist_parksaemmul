@@ -23,4 +23,8 @@ public interface TodoService {
 
     // 필터링 하는 메소드 생성
     List<TodoVO> searchByStatus(String selectedStatus) throws Exception;
+
+    // 우선순위로 조회하는 메소드 생성
+    List<TodoVO> searchByPriority(int priority) throws Exception;
+
 }

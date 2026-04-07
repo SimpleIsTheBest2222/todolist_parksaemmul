@@ -40,4 +40,9 @@ public class TodoServiceImpl implements TodoService {
         return todoDAO.searchByStatus(selectedStatus);
     }
 
+    @Override
+    public List<TodoVO> searchByPriority(int priority) throws Exception {
+        return todoDAO.searchByPriority(priority);
+    }
+
 }
