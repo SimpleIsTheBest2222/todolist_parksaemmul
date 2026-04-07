@@ -30,4 +30,19 @@ public class TodoServiceImpl implements TodoService {
         todoDAO.deleteTodolist(id);
     }
 
+    @Override
+    public List<TodoVO> searchByKeyword(String keyword)  throws Exception {
+        return todoDAO.searchByKeyword(keyword);
+    }
+
+    @Override
+    public List<TodoVO> searchByStatus(String selectedStatus) throws Exception {
+        return todoDAO.searchByStatus(selectedStatus);
+    }
+
+    @Override
+    public List<TodoVO> searchByPriority(int priority) throws Exception {
+        return todoDAO.searchByPriority(priority);
+    }
+
 }

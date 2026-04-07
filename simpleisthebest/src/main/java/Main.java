@@ -1,4 +1,5 @@
-import javax.swing.*;
+//import javax.swing.*;
+
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Scanner;
@@ -37,8 +38,7 @@ public class Main {
                 for (TodoVO vo : list) {
                     System.out.println(
                             // 직접 컬럼명을 지정해줘서 가져옴
-                            vo.getId() + " ㅣ " + vo.getStatus() + " ㅣ " + vo.getPriority() + " ㅣ " + vo.getCreatedTime() + " ㅣ " + vo.getTask()
-                    );
+                            vo.getId() + " ㅣ " + vo.getStatus() + " ㅣ " + vo.getPriority() + " ㅣ " + vo.getCreatedTime() + " ㅣ " + vo.getTask());
                 }
 
                 // list 변수에 담긴 데이터 총 갯수를 읽음
@@ -93,6 +93,7 @@ public class Main {
                 System.out.println("[시스템] \"" + task + "\" 항목이 추가되었습니다!");
                 System.out.println("(생성 시간: " + currentTime + ")");
                 System.out.println("----------------------------------");
+
 
             } else if (menu == 3) {
                 /*
@@ -173,11 +174,114 @@ public class Main {
 
                 System.out.println("[시스템] ID " + id + "번 항목의 정보가 성공적으로 삭제되었습니다.");
                 System.out.println("---------------------------------------------------------");
+            } else if (menu == 5) {
+                /*
+                 * 검색 및 필터링 기능
+                 * */
+                System.out.println("[ 검색 및 필터링 ]");
+                System.out.println("---------------------------------------------------------");
+                System.out.println("1. 키워드 검색 (할 일 내용)");
+                System.out.println("2. 상태별 필터 (시작 전 / 진행 중 / 완료)");
+                System.out.println("3. 우선순위별 필터 (숫자)");
+                System.out.println("4. 뒤로 가기");
+                System.out.println("---------------------------------------------------------");
+                System.out.print("선택 > ");
+
+                int selectedNum = sc.nextInt();
+                sc.nextLine();
+
+                if (selectedNum == 1) {
+                    System.out.println("[ 키워드 검색 ]");
+                    System.out.print("> 검색할 단어를 입력하세요: ");
+                    String keyword = sc.nextLine();
+
+                    // searchByKeyword 메소드 생성해서 해당 키워드 있는 값 가져오기
+                    List<TodoVO> list = service.searchByKeyword(keyword);
+
+                    System.out.println();
+                    System.out.println("[ '" + keyword + "' 검색 결과 ]");
+                    System.out.println("=============================================================================================");
+                    System.out.println(" ID |   상태   | 우선순위 |      생성 일시      |  할 일 내용");
+                    System.out.println("---------------------------------------------------------------------------------------------");
+
+                    for (TodoVO vo : list) {
+                        System.out.println(vo.getStatus() + " | " + vo.getPriority() + " | " + vo.getCreatedTime() + " | " + vo.getTask());
+                    }
+
+                    System.out.println("---------------------------------------------------------------------------------------------");
+                    System.out.println("[ 총 " + list.size() + "개의 항목이 있습니다. ]");
+                    System.out.println("=============================================================================================");
+                } else if (selectedNum == 2) {
+                    System.out.println("[ 상태별 필터링 ]");
+                    System.out.println("1: 시작 전, 2: 진행 중, 3: 완료");
+                    System.out.print("번호 선택 > ");
+
+                    // 번호 입력 받음.
+                    int statusNum = sc.nextInt();
+                    // 버퍼 제거.
+                    sc.nextLine();
+
+                    // 선택한 상태가 현재 DB데이터와 같은지 확인할 변수 생성.
+                    String selectedStatus = "";
+
+                    // DB 데이터값이랑 같아야됨.
+                    if (statusNum == 1) {
+                        selectedStatus = "시작 전";
+                    } else if (statusNum == 2) {
+                        selectedStatus = "진행 중";
+                    } else if (statusNum == 3) {
+                        selectedStatus = "완료";
+                    } else {
+                        System.out.println("잘못된 번호입니다.");
+                        return;
+                    }
+                    // 필터링 조회 메소드 추가
+                    List<TodoVO> list = service.searchByStatus(selectedStatus);
+
+                    System.out.println();
+                    System.out.println("[ '" + selectedStatus + "' 상태 항목 목록 ]");
+                    System.out.println("=============================================================================================");
+                    System.out.println(" ID |   상태   | 우선순위 |      생성 일시      |  할 일 내용");
+                    System.out.println("---------------------------------------------------------------------------------------------");
+
+                    // list 에 담긴 행에 담긴 값을 하나하나 가져와서 뿌려줌
+                    for (TodoVO vo : list) {
+                        System.out.println(vo.getId() + " | [ " + vo.getStatus() + " ] | " + vo.getPriority() + " | " + vo.getCreatedTime() + " | " + vo.getTask());
+                    }
+
+                    System.out.println("=============================================================================================");
+                    System.out.println("[ 총 " + list.size() + "개의 항목이 검색되었습니다. ]");
+                } else if (selectedNum == 3) {
+                    System.out.println("[ 우선순위별 필터 ]");
+                    System.out.print("> 우선순위를 입력하세요: ");
+                    // 숫자 입력 받음
+                    int priority = sc.nextInt();
+                    // 버퍼 비움
+                    sc.nextLine();
+                    // 서비스단 searchByPriority 메서드 호출
+                    List<TodoVO> list = service.searchByPriority(priority);
+
+                    System.out.println("[ '" + priority + "' 우선순위 항목 목록 ]");
+                    System.out.println("=============================================================================================");
+                    System.out.println(" ID |   상태   | 우선순위 |      생성 일시      |  할 일 내용");
+                    System.out.println("---------------------------------------------------------------------------------------------");
+                    // list 로 받아온값 하나하나 꺼내기
+                    for (TodoVO vo : list) {
+                        System.out.println(vo.getId() + " ㅣ " + vo.getStatus() + " | " + vo.getPriority() + " | " + vo.getCreatedTime() + " | " + vo.getTask());
+                    }
+                    // 총 행 갯수
+                    System.out.println("=============================================================================================");
+                    System.out.println("[ 총 " + list.size() + "개의 항목이 검색되었습니다. ]");
+
+                }
+
+
             }
         }
-        // 입력 닫기
     }
 }
+
+
 
 
 
