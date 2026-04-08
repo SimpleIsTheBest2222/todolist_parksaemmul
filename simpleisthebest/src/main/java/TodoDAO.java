@@ -1,4 +1,7 @@
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +31,42 @@ public class TodoDAO {
         ps.close();
         // 커넥션도 닫는다
         conn.close();
+    }
+
+    public List<TodoVO> searchByKeyword(String keyword) throws Exception {
+        // keyword 가 들어간 행 여러개일 경우 대비하여 리스트로 받음
+        List<TodoVO> list = new ArrayList<>();
+
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "SELECT ID, TASK, STATUS, PRIORITY, CREATED_TIME FROM TODOLIST WHERE TASK LIKE ?";
+
+        // db conn 한다음 sql 실행
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, "%" + keyword + "%");
+
+        // 쿼리 실행하는 명령어
+        ResultSet rs = ps.executeQuery();
+
+        // while 문으로 하나하나 조회하면서 해당 키워드 들어간 행 꺼냄.
+        while (rs.next()) {
+            TodoVO vo = new TodoVO();
+            vo.setId(rs.getInt("ID"));
+            vo.setTask(rs.getString("TASK"));
+            vo.setStatus(rs.getString("STATUS"));
+            vo.setPriority(rs.getInt("PRIORITY"));
+            vo.setCreatedTime(rs.getTimestamp("CREATED_TIME"));
+
+            list.add(vo);
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+
+        // 해당 키워드가 담긴 행들 list 으로 담아서 반환함.
+        return list;
+
     }
 
 

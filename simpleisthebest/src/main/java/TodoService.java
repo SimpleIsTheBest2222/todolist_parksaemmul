@@ -17,4 +17,7 @@ public interface TodoService {
 
     // 삭제시 필요한 메소드 생성
     void deleteTodolist(int id) throws Exception;
+
+    // 키워드 조회하는 메소드 생성
+    List<TodoVO> searchByKeyword(String keyword) throws Exception;
 }
