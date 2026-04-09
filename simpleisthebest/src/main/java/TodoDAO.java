@@ -209,4 +209,38 @@ public class TodoDAO {
 
         return list;
     }
+
+
+    public List<TodoVO> searchByPriority(int priority) throws Exception {
+        // H2 DB 연결 설정
+        Connection conn = DBConnection.getConnection();
+        // 쿼리
+        String sql = "SELECT ID, STATUS, PRIORITY, CREATED_TIME, TASK FROM TODOLIST WHERE PRIORITY = ?";
+        // DB 커넥하려는데 준비함
+        PreparedStatement ps = conn.prepareStatement(sql);
+        // ? 첫번쨰에 우선순위 값 int 로 들어가는걸로 셋팅함.
+        ps.setInt(1, priority);
+        // 실행함.
+        ResultSet rs = ps.executeQuery();
+        // list 형식으로 받을거임. 왜? 우선순위가 여러행이 나올수 있으니까.
+        List<TodoVO> list = new ArrayList<>();
+        // 하나하나 돌면서 id 랑 상태랑 우선순위 등등 가져옴
+        while (rs.next()) {
+            TodoVO vo = new TodoVO();
+
+            vo.setId(rs.getInt("ID"));
+            vo.setStatus(rs.getString("STATUS"));
+            vo.setPriority(rs.getInt("PRIORITY"));
+            vo.setCreatedTime(rs.getTimestamp("CREATED_TIME"));
+            vo.setTask(rs.getString("TASK"));
+            // add 메서드 써서 vo 들 list에 담음.
+            list.add(vo);
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+        // 그 담겨진 행들을 반환함
+        return list;
+    }
 }

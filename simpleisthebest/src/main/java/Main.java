@@ -254,6 +254,28 @@ public class Main {
 
                     System.out.println("=============================================================================================");
                     System.out.println("[ 총 " + list.size() + "개의 항목이 검색되었습니다. ]");
+                } else if (selectedNum == 3) {
+                    System.out.println("[ 우선순위별 필터 ]");
+                    System.out.print("> 우선순위를 입력하세요: ");
+                    // 숫자 입력 받음
+                    int priority = sc.nextInt();
+                    // 버퍼 비움
+                    sc.nextLine();
+                    // 서비스단 searchByPriority 메서드 호출
+                    List<TodoVO> list = service.searchByPriority(priority);
+
+                    System.out.println("[ '" + priority + "' 우선순위 항목 목록 ]");
+                    System.out.println("=============================================================================================");
+                    System.out.println(" ID |   상태   | 우선순위 |      생성 일시      |  할 일 내용");
+                    System.out.println("---------------------------------------------------------------------------------------------");
+                    // list 로 받아온값 하나하나 꺼내기
+                    for (TodoVO vo : list) {
+                        System.out.println(vo.getId() + " ㅣ " + vo.getStatus() + " | " + vo.getPriority() + " | " + vo.getCreatedTime() + " | " + vo.getTask());
+                    }
+                    // 총 행 갯수
+                    System.out.println("=============================================================================================");
+                    System.out.println("[ 총 " + list.size() + "개의 항목이 검색되었습니다. ]");
+
                 }
             }
         }
