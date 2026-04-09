@@ -20,4 +20,7 @@ public interface TodoService {
 
     // 키워드 조회하는 메소드 생성
     List<TodoVO> searchByKeyword(String keyword) throws Exception;
+
+    // 진행상태로 필터링 하는 메소드 생성
+    List<TodoVO> searchByStatus(String selectedStatus) throws Exception;
 }

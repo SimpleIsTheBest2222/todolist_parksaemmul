@@ -15,6 +15,7 @@ public class TodoServiceImpl implements TodoService {
         return todoDAO.searchTodolist();
     }
 
+
     @Override
     public void updateTodolist(TodoVO updatedVO) throws Exception {
         todoDAO.updateTodolist(updatedVO);
@@ -31,7 +32,13 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public List<TodoVO> searchByKeyword(String keyword)  throws Exception {
+    public List<TodoVO> searchByKeyword(String keyword) throws Exception {
         return todoDAO.searchByKeyword(keyword);
     }
+
+    @Override
+    public List<TodoVO> searchByStatus(String selectedStatus) throws Exception {
+        return todoDAO.searchByStatus(selectedStatus);
+    }
+
 }

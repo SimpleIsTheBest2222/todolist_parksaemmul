@@ -174,4 +174,39 @@ public class TodoDAO {
         ps.close();
         conn.close();
     }
+
+    public List<TodoVO> searchByStatus(String selectedStatus) throws Exception {
+
+        // 완료 -> 3개의 행이 나오므로 리스트 사용
+        List<TodoVO> list = new ArrayList<>();
+        // DB 연결
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "SELECT ID, TASK, STATUS, PRIORITY, CREATED_TIME " +
+                "FROM TODOLIST " +
+                "WHERE STATUS = ?";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        // ? 첫번쨰에 해당 '완료' 등 상태값 들어감. 기존 데이터와 맞는지 조회함.
+        ps.setString(1, selectedStatus);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            TodoVO vo = new TodoVO();
+            vo.setId(rs.getInt("ID"));
+            vo.setTask(rs.getString("TASK"));
+            vo.setStatus(rs.getString("STATUS"));
+            vo.setPriority(rs.getInt("PRIORITY"));
+            vo.setCreatedTime(rs.getTimestamp("CREATED_TIME"));
+
+            list.add(vo);
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return list;
+    }
 }
