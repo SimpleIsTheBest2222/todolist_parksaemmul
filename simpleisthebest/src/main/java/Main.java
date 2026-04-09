@@ -215,10 +215,51 @@ public class Main {
                     System.out.println("[ 총 " + list.size() + "개의 항목이 있습니다. ]");
                     System.out.println("=============================================================================================");
                 } else if (selectedNum == 2) {
+                    System.out.println("[ 상태별 필터링 ]");
+                    System.out.println("1: 시작 전, 2: 진행 중, 3: 완료");
+                    System.out.print("번호 선택 > ");
+
+                    // 번호 입력 받음.
+                    int statusNum = sc.nextInt();
+                    // 버퍼 제거.
+                    sc.nextLine();
+
+                    // 선택한 상태가 현재 DB데이터와 같은지 확인할 변수 생성.
+                    String selectedStatus = "";
+
+                    // DB 데이터값이랑 같아야됨.
+                    if (statusNum == 1) {
+                        selectedStatus = "시작 전";
+                    } else if (statusNum == 2) {
+                        selectedStatus = "진행 중";
+                    } else if (statusNum == 3) {
+                        selectedStatus = "완료";
+                    } else {
+                        System.out.println("잘못된 번호입니다.");
+                        return;
+                    }
+                    // 필터링 조회 메소드 추가
+                    List<TodoVO> list = service.searchByStatus(selectedStatus);
+
+                    System.out.println();
+                    System.out.println("[ '" + selectedStatus + "' 상태 항목 목록 ]");
+                    System.out.println("=============================================================================================");
+                    System.out.println(" ID |   상태   | 우선순위 |      생성 일시      |  할 일 내용");
+                    System.out.println("---------------------------------------------------------------------------------------------");
+
+                    // list 에 담긴 행에 담긴 값을 하나하나 가져와서 뿌려줌
+                    for (TodoVO vo : list) {
+                        System.out.println(vo.getId() + " | [ " + vo.getStatus() + " ] | " + vo.getPriority() + " | " + vo.getCreatedTime() + " | " + vo.getTask());
+                    }
+
+                    System.out.println("=============================================================================================");
+                    System.out.println("[ 총 " + list.size() + "개의 항목이 검색되었습니다. ]");
                 }
             }
-
-
         }
     }
 }
+
+
+
+
