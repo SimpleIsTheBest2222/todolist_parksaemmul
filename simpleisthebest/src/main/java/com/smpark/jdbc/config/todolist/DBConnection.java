@@ -1,3 +1,5 @@
+package com.smpark.jdbc.config.todolist;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 

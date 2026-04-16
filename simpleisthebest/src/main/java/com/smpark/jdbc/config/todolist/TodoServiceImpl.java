@@ -1,4 +1,6 @@
-import java.util.List;
+package com.smpark.jdbc.config.todolist;
+
+import java.util.*;
 
 public class TodoServiceImpl implements TodoService {
     // serviceImpl 단은 dao 를 통해서만 DB에 접근 가능하기 때문에 dao 객체를 생성해주는 거임
@@ -12,8 +14,10 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public List<TodoVO> searchTodolist() throws Exception {
+        // 일하는 단
         return todoDAO.searchTodolist();
     }
+
 
 
     @Override
@@ -46,4 +50,20 @@ public class TodoServiceImpl implements TodoService {
         return todoDAO.searchByPriority(priority);
     }
 
+    @Override
+    public void studyCollection() throws Exception {
+
+        List<TodoVO> todoList = todoDAO.searchTodolist();
+
+        System.out.println("========== studyCollection 전체 목록 ==========");
+        for (TodoVO todoVO : todoList) {
+            System.out.println(
+                    todoVO.getId() + " / " +
+                    todoVO.getStatus() + " / " +
+                    todoVO.getPriority() + " / " +
+                    todoVO.getTask()
+            );
+        }
+        System.out.println("========== studyCollection 전체 목록 ==========");
+    }
 }

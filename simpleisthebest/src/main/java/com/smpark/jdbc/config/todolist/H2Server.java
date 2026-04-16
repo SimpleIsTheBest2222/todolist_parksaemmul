@@ -1,3 +1,5 @@
+package com.smpark.jdbc.config.todolist;
+
 import org.h2.tools.Server;
 
 public class H2Server {

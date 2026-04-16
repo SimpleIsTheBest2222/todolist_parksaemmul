@@ -1,3 +1,5 @@
+package com.smpark.jdbc.config.todolist;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -243,4 +245,6 @@ public class TodoDAO {
         // 그 담겨진 행들을 반환함
         return list;
     }
+
+
 }
