@@ -1,3 +1,5 @@
+package com.smpark.jdbc.config.todolist;
+
 import java.sql.Timestamp;
 
 public class TodoVO {

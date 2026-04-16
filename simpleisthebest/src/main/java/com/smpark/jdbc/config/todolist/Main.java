@@ -1,3 +1,5 @@
+package com.smpark.jdbc.config.todolist;
+
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Scanner;
@@ -18,6 +20,7 @@ public class Main {
             System.out.println("4. 할 일 삭제");
             System.out.println("5. 검색");
             System.out.println("6. 종료");
+            System.out.println("7. 컬렉션 스터디");
             System.out.print("선택 > ");
 
             int menu = sc.nextInt();
@@ -28,11 +31,11 @@ public class Main {
              * 상태 표시 및 피드백 (Feedback UI) 경
              * 경고 문구 추가
              * */
-            if (menu < 1 || menu > 6) {
+         /*   if (menu < 1 || menu > 6) {
                 System.out.println("[경고] 잘못된 입력입니다. 1~6 사이의 숫자를 입력해주세요.");
                 // 바로 종료
                 return;
-            }
+            }*/
 
             if (menu == 1) {
                 // list 변수 정의해서 service 단에 구현한 searchTodolist 메소드를 타기 위함.
@@ -161,6 +164,10 @@ public class Main {
                     sc.nextLine();
 
                     // 수정된 객체를 담음.
+                    // 사용자가 넣은값을 수기로 vo에 담음.
+                    // public void update(@RequestBody TodoVO vo)
+                    // 필요한 데이터는 이미 vo 에 set 메서드 써서 넣음. db 로 전달가능한상태.
+                    // 수정/삭제는 결과값이 필요없음. 성공하면 끝. 실패하면 exception.
                     TodoVO updatedVO = new TodoVO();
                     updatedVO.setId(id);
                     updatedVO.setTask(task);
@@ -308,6 +315,10 @@ public class Main {
             } else if (menu == 6) {
                 System.out.println("종료합니다.");
                 break;
+            } else if (menu == 7){
+                System.out.println("컬렉션 실습");
+
+                service.studyCollection();
             }
         }
     }
